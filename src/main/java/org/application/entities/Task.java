@@ -1,6 +1,7 @@
 package org.application.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.application.enums.Priority;
 import org.application.enums.Status;
@@ -39,6 +40,7 @@ public class Task {
             , CascadeType.REFRESH}
             , fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
+    @JsonIgnore
     private Project project;
 
     @ManyToOne(cascade = {CascadeType.MERGE
@@ -47,6 +49,7 @@ public class Task {
             , CascadeType.REFRESH}
             , fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     public Task() {

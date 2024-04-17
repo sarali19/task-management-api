@@ -1,5 +1,6 @@
 package org.application.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -19,17 +20,14 @@ public class Project {
     @Column
     private String description;
 
-    @ManyToMany(mappedBy = "projects", fetch = FetchType.LAZY, cascade = {
-            CascadeType.MERGE,
-            CascadeType.PERSIST,
-            CascadeType.REFRESH,
-            CascadeType.DETACH
-    })
+    @ManyToMany(mappedBy = "projects", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<User> users;
 
     @OneToMany(mappedBy = "project"
             , cascade = CascadeType.ALL
-            , fetch = FetchType.EAGER)
+            , fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Task> tasks;
 
     public Project() {

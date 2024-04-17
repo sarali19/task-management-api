@@ -1,5 +1,8 @@
 package org.application.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.application.enums.Role;
 
@@ -24,17 +27,19 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_project",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
+    @JsonIgnore
     private List<Project> projects;
 
     @OneToMany(mappedBy = "user"
             , cascade = CascadeType.ALL
-            , fetch = FetchType.EAGER)
+            , fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Task> tasks;
 
     public User() {
